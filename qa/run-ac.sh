@@ -44,6 +44,7 @@ for spec in "$HERE"/specs/*.json; do
   start=$(perl -MTime::HiRes=time -e 'printf "%d", time*1000')
   init="$HERE/specs/${name}.init.js"
   run_args=(--spec "$spec" --out "$case_dir" --timeout "$TIMEOUT")
+  [[ -n "${COLOR_SCHEME:-}" ]] && run_args+=(--color-scheme "$COLOR_SCHEME")
   [[ -f "$init" ]] && run_args+=(--init-script "$init")
   "$RUNNER" "${run_args[@]}" >"$case_dir/run.log" 2>&1
   rc=$?

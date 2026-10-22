@@ -1,0 +1,63 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "viewport": {
+    "width": 360,
+    "height": 640
+  },
+  "steps": [
+    {
+      "op": "eval",
+      "expression": "document.documentElement.scrollWidth<=360",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var b=getComputedStyle(document.body).backgroundColor.match(/[\\d.]+/g).map(Number);return (b[0]+b[1]+b[2])/3>200;})()",
+      "expect": "true"
+    },
+    {
+      "op": "assertText",
+      "text": "专注"
+    },
+    {
+      "op": "assertText",
+      "text": "25:00"
+    },
+    {
+      "op": "assertText",
+      "text": "就绪"
+    },
+    {
+      "op": "assertText",
+      "text": "0 / 4"
+    },
+    {
+      "op": "assertText",
+      "text": "第 1 轮"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var el=document.querySelector(\"[data-testid=time-display]\");function bgOf(n){while(n&&n!==document.documentElement){var c=getComputedStyle(n).backgroundColor;if(c&&c!=='rgba(0, 0, 0, 0)'&&c!=='transparent')return c;n=n.parentElement;}return getComputedStyle(document.body).backgroundColor;}var fg=getComputedStyle(el).color.match(/[\\d.]+/g).map(Number);var bg=bgOf(el).match(/[\\d.]+/g).map(Number);var L=function(c){var s=c.map(function(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);});return 0.2126*s[0]+0.7152*s[1]+0.0722*s[2];};var l1=L(fg),l2=L(bg);var r=(Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);window.__cr=window.__cr||{};window.__cr['[data-testid=time-display]']=Math.round(r*100)/100;return r>=4.5;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var el=document.querySelector(\"[data-testid=phase-label]\");function bgOf(n){while(n&&n!==document.documentElement){var c=getComputedStyle(n).backgroundColor;if(c&&c!=='rgba(0, 0, 0, 0)'&&c!=='transparent')return c;n=n.parentElement;}return getComputedStyle(document.body).backgroundColor;}var fg=getComputedStyle(el).color.match(/[\\d.]+/g).map(Number);var bg=bgOf(el).match(/[\\d.]+/g).map(Number);var L=function(c){var s=c.map(function(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);});return 0.2126*s[0]+0.7152*s[1]+0.0722*s[2];};var l1=L(fg),l2=L(bg);var r=(Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);window.__cr=window.__cr||{};window.__cr['[data-testid=phase-label]']=Math.round(r*100)/100;return r>=4.5;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var el=document.querySelector(\"[data-testid=status-label]\");function bgOf(n){while(n&&n!==document.documentElement){var c=getComputedStyle(n).backgroundColor;if(c&&c!=='rgba(0, 0, 0, 0)'&&c!=='transparent')return c;n=n.parentElement;}return getComputedStyle(document.body).backgroundColor;}var fg=getComputedStyle(el).color.match(/[\\d.]+/g).map(Number);var bg=bgOf(el).match(/[\\d.]+/g).map(Number);var L=function(c){var s=c.map(function(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);});return 0.2126*s[0]+0.7152*s[1]+0.0722*s[2];};var l1=L(fg),l2=L(bg);var r=(Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);window.__cr=window.__cr||{};window.__cr['[data-testid=status-label]']=Math.round(r*100)/100;return r>=4.5;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "JSON.stringify(window.__cr)",
+      "expect": "time-display"
+    },
+    {
+      "op": "screenshot",
+      "name": "light-mobile-360"
+    }
+  ]
+}

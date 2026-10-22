@@ -172,6 +172,8 @@ rssh "set -e
   mv '$STAGING' '$WEBROOT'
   # 双保险：无论上传端权限如何，落地后一律修正为 www-data 可读（目录 755 / 文件 644）
   chmod -R a+rX '$WEBROOT'
+  # rsync -a 会把本地 macOS 的 uid 501/staff 原样带过来（服务器上显示 UNKNOWN:staff），统一归位 root:root
+  chown -R root:root '$WEBROOT'
   echo \"   目录已切换；旧版（若有）: $WEBROOT.bak-$TS\""
 
 # reload 前的权限门禁（1630 事故后加）：目录可穿越 + 以 worker 身份逐个真读一遍

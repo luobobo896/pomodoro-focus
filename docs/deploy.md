@@ -242,3 +242,68 @@ nginx -t && nginx -s reload
 - [ ] Dev 交付代码后先过 QA，再按 §4 发布
 
 **需 leader 拍板**：确认走方案 B（`root /var/www` + include 单行改动）。若坚持"零 nginx 改动"，唯一路径是 A′（文件放 `/usr/share/nginx/html`），我给出但不推荐。
+
+---
+
+## 7. 发布记录
+
+### 2026-10-22 16:31:44 · 首次上线成功（M1）
+
+| 项 | 值 |
+|---|---|
+| 目标 | `https://hk.hsddns.com/pomodoro-focus/` |
+| 代码版本（冻结指纹） | `index.html 2fd50b40` / `styles.css 907013e6` / `timer.js b900a26c` / `ui.js b0dfc293` / `app.js fe41e31a` |
+| 线上落盘 md5 复核 | 服务器上 5 个文件 md5 **逐条等于**冻结值（不是"看起来一样"） |
+| 代码侧回滚点 | git `8cea14f`（冻结版，commit message 含 5 个 md5）；`git checkout 8cea14f` |
+| 备份 | `/etc/nginx/backups/pre-pomodoro-20261022-163144` |
+| 片段 | `/etc/nginx/snippets/pomodoro-focus.conf` |
+| 代码目录 | `/var/www/pomodoro-focus`（755 root:root，6 个文件） |
+| master PID | `1472885`（reload 前后未变；worker 1481788-1481795 → 1482851-1482858） |
+| 线上验证 | 9/9 断言通过；`/` 301、`/whtasapp/` 200、`/health` 200、`/json/` 200、`/asset/` 200、`/frostfall/` 200；新站 301/200/200 |
+| 缓存头 | html `no-cache`，assets `public, max-age=300`（各一条） |
+| 不可达校验 | `/pomodoro-focus/{qa,docs,ops}/`、`/.git/`、`/README.md` 全部 404 |
+
+**唯一回滚命令**
+
+```bash
+rm -f /etc/nginx/snippets/pomodoro-focus.conf
+sed -i '/pomodoro-focus/d' /etc/nginx/sites-enabled/whatsapp-ai-hk
+nginx -t && nginx -s reload
+mv /var/www/pomodoro-focus /var/www/pomodoro-focus.rollback-$(date +%Y%m%d-%H%M%S)
+```
+
+### 16:29 那次失败（归档）
+403 根因：暂存目录 `0700` 被 `rsync -a` 带到服务器，`www-data` 无法穿越。已加入 7a 权限门禁（目录 755 + `runuser -u www-data -- test -r` 逐文件实测），并把属主统一为 `root:root`。
+
+---
+
+## 8. 已知坑（都是踩过的，不是想象）
+
+### 坑 1：`mktemp -d` 的 0700 会被 `rsync -a` 带到服务器 → nginx 403（16:29 事故）
+- **现场**：`/pomodoro-focus/` 返回 403，error.log `is forbidden (13: Permission denied)`。
+- **根因**：`mktemp -d` 建的是 `0700`；`rsync -a` 保留权限，落在服务器上就是 `700 root:root`，而 nginx 是 `user www-data;`，连目录都无法穿越。文件本身 `644` 没问题，所以只看文件权限会误判"权限没问题"。
+- **诊断三步**（不要猜）：`namei -l <file>` 看哪一级缺 `x`；`stat -c '%a %U:%G'` 与该目录逐级对照；`runuser -u www-data -- test -r <file>` 以 worker 身份实测。
+- **已固化**：打包阶段统一 755/644；落地 `chmod -R a+rX`；**reload 前**两道门禁——目录必须 755 且 `www-data test -x`，再逐文件 `runuser -u www-data -- test -r`，任一失败整体回滚且**不 reload**。
+
+### 坑 2：`rsync -a` 会把本机 uid 501 / staff 带过去，服务器显示 `UNKNOWN:staff`
+- 权限位对、但属主在服务器上不存在，属于隐患。落地后统一 `chown -R root:root`（脚本已内置）。
+
+### 坑 3：整仓库 `rsync --delete` 会把 `qa/`、`docs/`、`.git/` 发布到公网
+- 本项目最初只排除了 `.git/docs/ops`，漏了 `qa/`（21 个 spec + 截图 + 日志）。
+- **已固化**：白名单打包，只发 `index.html` + `assets/**`；打包后硬校验，落地后再 `find` 核一次，白名单外文件一律回滚。
+- **线上兜底也要验**：`/pomodoro-focus/{qa,docs,ops}/`、`/.git/`、`/README.md` 实测 404。
+
+### 坑 4：这台机器上有**两个** nginx master，别认错
+- 真正服务 80/443 的是 systemd 管的 **1472885**，`/run/nginx.pid` 指向它。
+- PID **1648** 是 7 月留下的 docker 型 master（`daemon off`），不监听 443，与本站无关。
+- **`ps -C nginx | head` 看到的是 1648，会误判"没 reload"**。判断依据一律用 `cat /run/nginx.pid` + `ss -ltnp | grep :443`。`nginx -s reload` 只换 worker，**master PID 本来就不变**。
+
+### 坑 5：这个站点根路径没有静态 root
+- `location = /` 是 `301 → /whtasapp/`（反代 8790），server 级没有 `root`。未匹配路径落到编译默认 `/usr/share/nginx/html`（nginx 包管理目录，不要往里塞东西）。
+- 所以新站必须显式 `location`（方案 B），不能指望"放进现有 document root"。
+
+### 坑 6：零构建 + 无 hash 文件名
+- HTML `no-cache`、assets `max-age=300`，改版后最多旧 5 分钟。要彻底解决得给文件名加 hash（M1.1 再议）。
+
+### 环境提示
+- `/` 已用 **97%**（约 1.7G 可用）。本次静态站仅 ~35KB，不影响；但不要在这个盘上堆构建产物或快照。
