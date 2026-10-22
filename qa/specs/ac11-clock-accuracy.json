@@ -1,0 +1,23 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{__pf.advance(300000);return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{const r=__pf.getState().remainingMs;const t=document.querySelector('[data-testid=time-display]').innerText.trim();return Math.abs(r-1200000)<=2000&&t!==''&&document.querySelector('[data-testid=phase-label]').innerText.trim()==='专注';})()",
+      "expect": "true"
+    },
+    {
+      "op": "screenshot",
+      "name": "after-5min"
+    }
+  ]
+}

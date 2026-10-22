@@ -1,0 +1,45 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "steps": [
+    {
+      "op": "eval",
+      "expression": "document.querySelector('[data-testid=time-display]').innerText.trim()==='25:00'",
+      "expect": "true"
+    },
+    {
+      "op": "assertText",
+      "text": "专注"
+    },
+    {
+      "op": "assertText",
+      "text": "就绪"
+    },
+    {
+      "op": "assertText",
+      "text": "第 1 轮"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var t=document.querySelector('[data-testid=pomo-count]').innerText.trim();var m=/([0-9]+)\\s*\\/\\s*([0-9]+)/.exec(t);return !!m&&m[1]==='0'&&m[2]==='4';})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "document.title==='25:00 · 专注'",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var p=document.querySelector('[data-testid=settings-panel]');return !p||p.hidden||p.offsetParent===null;})()",
+      "expect": "true"
+    },
+    {
+      "op": "screenshot",
+      "name": "firstpaint"
+    }
+  ]
+}

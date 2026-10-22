@@ -1,0 +1,33 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{__pf.advance(__pf.getState().settings.focusMin*60000*0.6);return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{window.__qaP=Number(document.querySelector('[data-testid=progress]').getAttribute('aria-valuenow'));return window.__qaP>=55&&window.__qaP<=65;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{__pf.setDurations({focusMin:50});return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 400
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var p=Number(document.querySelector('[data-testid=progress]').getAttribute('aria-valuenow'));return Math.abs(p-window.__qaP)<=2;})()",
+      "expect": "true"
+    }
+  ]
+}

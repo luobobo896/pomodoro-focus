@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "waitMs",
+      "ms": 2000
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-reset]"
+    },
+    {
+      "op": "eval",
+      "expression": "document.querySelector('[data-testid=time-display]').innerText.trim()==='25:00'",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "document.querySelector('[data-testid=status-label]').innerText.trim()==='就绪'",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var s=document.querySelector('[data-testid=btn-start]'),p=document.querySelector('[data-testid=btn-pause]');var sv=!!s&&!s.hidden&&!s.disabled,pv=!!p&&!p.hidden&&!p.disabled;return (sv!==pv);})()",
+      "expect": "true"
+    },
+    {
+      "op": "assertText",
+      "text": "第 1 轮"
+    }
+  ]
+}

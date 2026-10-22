@@ -1,0 +1,35 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "waitMs",
+      "ms": 1200
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{sessionStorage.setItem('__qaRemaining',String(__pf.getState().remainingMs));return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "goto",
+      "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{const d=Math.abs(__pf.getState().remainingMs-Number(sessionStorage.getItem('__qaRemaining')));return d<=2000&&document.querySelector('[data-testid=status-label]').innerText.trim()==='进行中';})()",
+      "expect": "true"
+    },
+    {
+      "op": "assertText",
+      "text": "专注"
+    },
+    {
+      "op": "screenshot",
+      "name": "after-reload"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "waitMs",
+      "ms": 1500
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-pause]:not([hidden])"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{window.__qa=[__pf.getState().remainingMs];return document.querySelector('[data-testid=status-label]').innerText.trim()==='已暂停';})()",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 3000
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{window.__qa.push(__pf.getState().remainingMs);return Math.abs(window.__qa[1]-window.__qa[0])<=0;})()",
+      "expect": "true"
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "waitMs",
+      "ms": 1500
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{const r=__pf.getState().remainingMs;return r<window.__qa[0]&&r>window.__qa[0]-5000&&document.querySelector('[data-testid=status-label]').innerText.trim()==='进行中';})()",
+      "expect": "true"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "viewport": {
+    "width": 360,
+    "height": 640
+  },
+  "steps": [
+    {
+      "op": "eval",
+      "expression": "document.documentElement.scrollWidth<=360",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{return ['btn-start','btn-reset','btn-skip','btn-settings'].every(function(id){var el=document.querySelector('[data-testid='+id+']');if(!el)return false;var r=el.getBoundingClientRect();return r.width>0&&r.height>0&&r.top>=0&&r.left>=0&&r.bottom<=window.innerHeight+1&&r.right<=360+1;});})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var t=parseFloat(getComputedStyle(document.querySelector('[data-testid=time-display]')).fontSize);var b=parseFloat(getComputedStyle(document.body).fontSize);return t>=b*2;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var el=document.querySelector('[data-testid=btn-start]');if(!el||el.hidden)el=document.querySelector('[data-testid=btn-pause]');if(!el)return false;var r=el.getBoundingClientRect();return r.width>=window.innerWidth*0.6&&r.height<80;})()",
+      "expect": "true"
+    },
+    {
+      "op": "screenshot",
+      "name": "mobile-360x640"
+    }
+  ]
+}

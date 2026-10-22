@@ -1,0 +1,91 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-settings]"
+    },
+    {
+      "op": "type",
+      "selector": "[data-testid=setting-focus]",
+      "text": "1",
+      "clear": true
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{document.querySelector('[data-testid=setting-focus]').blur();return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "String(document.querySelector('[data-testid=setting-focus]').value)==='1'",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "['setting-focus','setting-short','setting-long','setting-reset'].every(function(id){return !!document.querySelector('[data-testid='+id+']');})",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 500
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var s=JSON.parse(localStorage.getItem('pomodoro-focus:v1')||'{}');return !!(s.settings&&s.settings.focusMin===1);})()",
+      "expect": "true"
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-settings]"
+    },
+    {
+      "op": "eval",
+      "expression": "document.querySelector('[data-testid=time-display]').innerText.trim()==='01:00'",
+      "expect": "true"
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "goto",
+      "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var t=document.querySelector('[data-testid=time-display]').innerText.trim().split(':');var v=+t[0]*60+ +t[1];return v>=56&&v<=60;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "document.querySelector('[data-testid=phase-label]').innerText.trim()==='专注'",
+      "expect": "true"
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-settings]"
+    },
+    {
+      "op": "click",
+      "selector": "[data-action=restore-defaults]"
+    },
+    {
+      "op": "waitMs",
+      "ms": 400
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-reset]"
+    },
+    {
+      "op": "waitMs",
+      "ms": 400
+    },
+    {
+      "op": "eval",
+      "expression": "document.querySelector('[data-testid=time-display]').innerText.trim()==='25:00'&&document.querySelector('[data-testid=status-label]').innerText.trim()==='就绪'",
+      "expect": "true"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "eval",
+      "expression": "(()=>{var r=performance.getEntriesByType('resource');return r.length>0&&r.every(function(e){return !(e.responseStatus>=400);});})()",
+      "expect": "true"
+    },
+    {
+      "op": "goto",
+      "url": "http://127.0.0.1:8231/pomodoro-focus?debug=1"
+    },
+    {
+      "op": "assertText",
+      "text": "25:00"
+    },
+    {
+      "op": "eval",
+      "expression": "location.pathname.indexOf('/pomodoro-focus')===0",
+      "expect": "true"
+    },
+    {
+      "op": "screenshot",
+      "name": "no-trailing-slash"
+    }
+  ]
+}

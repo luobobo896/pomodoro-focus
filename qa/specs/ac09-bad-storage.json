@@ -1,0 +1,37 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "eval",
+      "expression": "(()=>{localStorage.setItem('pomodoro-focus:v1','not-json{{{');return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "goto",
+      "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1"
+    },
+    {
+      "op": "eval",
+      "expression": "document.querySelector('[data-testid=time-display]').innerText.trim()==='25:00'&&typeof __pf==='object'",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{localStorage.setItem('pomodoro-focus:v1',JSON.stringify({schemaVersion:1,settings:null,stats:null,session:null}));return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "goto",
+      "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1"
+    },
+    {
+      "op": "eval",
+      "expression": "document.querySelector('[data-testid=time-display]').innerText.trim()==='25:00'&&document.body.innerText.length>20",
+      "expect": "true"
+    },
+    {
+      "op": "screenshot",
+      "name": "null-settings"
+    }
+  ]
+}

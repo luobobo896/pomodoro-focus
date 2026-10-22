@@ -1,0 +1,10 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "eval",
+      "expression": "(()=>{var ids=['time-display','phase-label','status-label','round-count','pomo-count','btn-start','btn-pause','btn-reset','btn-skip','btn-settings','settings-panel','progress','setting-focus','setting-short','setting-long','setting-reset'];var missing=ids.filter(function(id){return !document.querySelector('[data-testid='+id+']');});if(missing.length){console.error('missing testid: '+missing.join(','));}return missing.length===0;})()",
+      "expect": "true"
+    }
+  ]
+}

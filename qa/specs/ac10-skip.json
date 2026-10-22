@@ -1,0 +1,33 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-skip]"
+    },
+    {
+      "op": "assertText",
+      "text": "短休息"
+    },
+    {
+      "op": "assertText",
+      "text": "第 1 轮"
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-skip]"
+    },
+    {
+      "op": "assertText",
+      "text": "专注"
+    },
+    {
+      "op": "assertText",
+      "text": "第 1 轮"
+    }
+  ]
+}

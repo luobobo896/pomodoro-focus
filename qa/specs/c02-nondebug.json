@@ -1,0 +1,14 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/",
+  "steps": [
+    {
+      "op": "eval",
+      "expression": "typeof window.__pf === 'undefined'",
+      "expect": "true"
+    },
+    {
+      "op": "assertText",
+      "text": "25:00"
+    }
+  ]
+}

@@ -1,0 +1,366 @@
+/* styles.css —— 视觉 token 取自 docs/design.md §3（数值未改写）；零外链、无外部字体 */
+
+:root {
+  /* ---- 中性色（浅色主题） ---- */
+  --bg: #FAFAF9;
+  --surface: #FFFFFF;
+  --border: #E7E5E4;
+  --text-primary: #1C1917;
+  --text-secondary: #78716C;
+  --text-tertiary: #A8A29E;
+
+  /* ---- 状态强调色 ---- */
+  --accent-focus: #D0453A;
+  --accent-focus-weak: #FDECEA;
+  --accent-short: #12856A;
+  --accent-short-weak: #E6F4F0;
+  --accent-long: #3F6DA8;
+  --accent-long-weak: #EAF0F8;
+
+  --color-accent: var(--accent-focus);
+  --color-accent-weak: var(--accent-focus-weak);
+
+  /* ---- 字号层级 ---- */
+  --font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+                 "Segoe UI", "Microsoft YaHei", sans-serif;
+  --fs-timer: clamp(56px, 18vw, 120px);
+  --fs-title: 20px;
+  --fs-body: 15px;
+  --fs-label: 13px;
+  --fs-caption: 12px;
+  --lh-tight: 1.1;
+  --lh-body: 1.5;
+
+  /* ---- 间距（4 的倍数） ---- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px;
+  --sp-4: 16px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+
+  /* ---- 圆角 / 阴影 ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-full: 999px;
+  --shadow-card: 0 1px 2px rgba(28,25,23,.04), 0 8px 24px rgba(28,25,23,.06);
+  --shadow-btn: 0 1px 2px rgba(28,25,23,.08);
+
+  /* ---- 动效 ---- */
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --ease: cubic-bezier(.4, 0, .2, 1);
+
+  /* ---- 触控 / 焦点 ---- */
+  --tap-min: 44px;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #18181B;
+    --surface: #232326;
+    --border: #3F3F46;
+    --text-primary: #FAFAFA;
+    --text-secondary: #A1A1AA;
+    --text-tertiary: #71717A;
+
+    --accent-focus: #F2766A;
+    --accent-focus-weak: #3A2422;
+    --accent-short: #3DBFA0;
+    --accent-short-weak: #1B3530;
+    --accent-long: #7FA7DB;
+    --accent-long-weak: #1E2A3A;
+
+    --shadow-card: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    --shadow-btn: 0 1px 2px rgba(0,0,0,.4);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* 作者写的 display 会覆盖 UA 的 [hidden]，这里强制兜住（settings-panel / 隐藏按钮都靠它） */
+[hidden] { display: none !important; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  padding: var(--sp-6);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  line-height: var(--lh-body);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* 三态只切换强调色，不刷满屏 */
+.card[data-phase="shortBreak"] {
+  --color-accent: var(--accent-short);
+  --color-accent-weak: var(--accent-short-weak);
+}
+.card[data-phase="longBreak"] {
+  --color-accent: var(--accent-long);
+  --color-accent-weak: var(--accent-long-weak);
+}
+
+.card {
+  width: 100%;
+  max-width: 480px;
+  padding: var(--sp-8) var(--sp-6);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  text-align: center;
+}
+
+.app-title {
+  margin: 0;
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  letter-spacing: .08em;
+  color: var(--text-tertiary);
+}
+
+.clock { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); }
+
+.phase {
+  margin: 0;
+  font-size: var(--fs-label);
+  font-weight: 500;
+  letter-spacing: .04em;
+  color: var(--color-accent);
+  transition: color var(--dur-base) var(--ease);
+}
+
+.timer {
+  font-size: var(--fs-timer);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-accent);
+  transition: color var(--dur-base) var(--ease);
+  /* 固定高度，避免位数变化时跳动 */
+  min-height: 1em;
+}
+
+.progress {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress__fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--color-accent);
+  border-radius: inherit;
+  transition: width var(--dur-base) var(--ease);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--text-secondary);
+  font-size: var(--fs-caption);
+}
+
+.dots { display: inline-flex; gap: 6px; }
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: transparent;
+}
+
+.dot[data-done="1"] {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.dot-caption { font-variant-numeric: tabular-nums; }
+
+.round { color: var(--text-secondary); }
+
+.status {
+  margin: 0;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  min-height: 1.5em;
+}
+
+.controls {
+  display: grid;
+  /* 窄屏放不下 design 的 160+96+96：主按钮独占一行，次按钮并排（与 320px 降级一致） */
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+  width: 100%;
+  margin-top: var(--sp-2);
+}
+
+@media (min-width: 472px) {
+  .controls { grid-template-columns: 1fr 96px 96px; }
+  .controls .btn--primary { grid-column: 1; }
+  .controls .btn--ghost { grid-column: auto; }
+}
+
+.btn {
+  min-height: 56px;
+  min-width: var(--tap-min);
+  padding: 0 var(--sp-4);
+  border: 0;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: var(--fs-body);
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease),
+              background-color var(--dur-base) var(--ease),
+              color var(--dur-base) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.btn--primary {
+  grid-column: 1 / -1;
+  background: var(--color-accent);
+  color: #fff;
+  box-shadow: var(--shadow-btn);
+}
+
+.btn--ghost {
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.btn--wide { width: 100%; }
+
+.btn:hover:not(:disabled) { filter: brightness(.92); }
+.btn--ghost:hover:not(:disabled) { background: var(--bg); }
+.btn:active:not(:disabled) { transform: scale(.98); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.btn:focus-visible,
+.link:focus-visible,
+input:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-accent);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.link {
+  background: none;
+  border: 0;
+  padding: var(--sp-2);
+  min-height: var(--tap-min);
+  font-family: inherit;
+  font-size: var(--fs-caption);
+  color: var(--text-tertiary);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+
+.foot {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  min-height: 64px;
+}
+
+.stats {
+  margin: 0;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.settings {
+  width: 100%;
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  text-align: left;
+}
+
+.settings__hint {
+  margin: 0;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+  min-height: 1.5em;
+}
+
+.settings__hint:empty { display: none; }
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+
+.field input {
+  width: 88px;
+  min-height: var(--tap-min);
+  padding: 0 var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: var(--fs-body);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.noscript {
+  margin: 0;
+  font-size: var(--fs-caption);
+  color: var(--text-secondary);
+}
+
+/* 极窄屏：按钮改上下两行，重置/跳过全宽 */
+@media (max-width: 359px) {
+  .card { padding: var(--sp-6) var(--sp-4); }
+  .timer { font-size: 56px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .btn:active:not(:disabled) { transform: none; }
+}
+
+/* 阶段结束的短暂视觉提示（JS 加 .is-ended，减少动效时不闪） */
+.card.is-ended { animation: pf-flash 600ms var(--ease) 2; }
+
+@keyframes pf-flash {
+  0%, 100% { box-shadow: var(--shadow-card); }
+  50% { box-shadow: 0 0 0 3px var(--color-accent-weak); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.is-ended { animation: none; }
+  .card.is-ended .phase { text-decoration: underline; }
+}

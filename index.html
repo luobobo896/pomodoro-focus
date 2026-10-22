@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>25:00 · 专注</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./assets/styles.css">
+</head>
+<body>
+  <main class="card" data-phase="focus" aria-labelledby="app-title">
+    <h1 class="app-title" id="app-title">番茄时钟</h1>
+
+    <div class="clock">
+      <p class="phase" data-testid="phase-label" aria-live="polite">专注</p>
+      <div class="timer" role="timer" aria-live="off" data-testid="time-display">25:00</div>
+    </div>
+
+    <div class="progress" role="progressbar" data-testid="progress"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="当前阶段进度">
+      <span class="progress__fill"></span>
+    </div>
+
+    <div class="meta">
+      <span class="dots" aria-hidden="true">
+        <i class="dot"></i><i class="dot"></i><i class="dot"></i><i class="dot"></i>
+      </span>
+      <span class="dot-caption" data-testid="pomo-count">0 / 4</span>
+      <span class="round" data-testid="round-count">第 1 轮</span>
+    </div>
+
+    <p class="status" data-testid="status-label">就绪</p>
+
+    <div class="controls">
+      <button class="btn btn--primary" type="button" data-testid="btn-start">开始</button>
+      <button class="btn btn--primary" type="button" data-testid="btn-pause" hidden disabled>暂停</button>
+      <button class="btn btn--ghost" type="button" data-testid="btn-reset">重置</button>
+      <button class="btn btn--ghost" type="button" data-testid="btn-skip">跳过</button>
+    </div>
+
+    <div class="foot">
+      <p class="stats" hidden></p>
+      <button class="link" type="button" data-testid="btn-settings" aria-expanded="false"
+              aria-controls="settings-panel">设置</button>
+    </div>
+
+    <section class="settings" id="settings-panel" data-testid="settings-panel" hidden aria-label="时长设置">
+      <p class="settings__hint" aria-live="polite"></p>
+      <div class="field">
+        <label for="set-focus">专注（分钟）</label>
+        <input id="set-focus" data-testid="setting-focus" name="focusMin" type="number" min="1" max="60" step="1" value="25" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="set-short">短休息（分钟）</label>
+        <input id="set-short" data-testid="setting-short" name="shortBreakMin" type="number" min="1" max="60" step="1" value="5" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="set-long">长休息（分钟）</label>
+        <input id="set-long" data-testid="setting-long" name="longBreakMin" type="number" min="1" max="60" step="1" value="15" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label for="set-every">长休间隔（个）</label>
+        <input id="set-every" name="longBreakEvery" type="number" min="2" max="8" step="1" value="4" inputmode="numeric">
+      </div>
+      <button class="btn btn--ghost btn--wide" type="button" data-action="restore-defaults" data-testid="setting-reset">恢复默认</button>
+    </section>
+
+    <noscript>
+      <p class="noscript">这个番茄时钟需要 JavaScript 才能计时。请启用 JavaScript 后刷新页面。</p>
+    </noscript>
+  </main>
+
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

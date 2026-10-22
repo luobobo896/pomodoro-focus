@@ -1,0 +1,67 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "key",
+      "key": "Tab"
+    },
+    {
+      "op": "key",
+      "key": "Tab"
+    },
+    {
+      "op": "key",
+      "key": "Tab"
+    },
+    {
+      "op": "key",
+      "key": "Tab"
+    },
+    {
+      "op": "key",
+      "key": "Tab"
+    },
+    {
+      "op": "key",
+      "key": "Tab"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var a=document.activeElement;return !!a&&(a.innerText||'').trim().indexOf('开始')===0;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var a=document.activeElement;var cs=getComputedStyle(a);return cs.outlineStyle!=='none'||cs.boxShadow!=='none';})()",
+      "expect": "true"
+    },
+    {
+      "op": "key",
+      "key": "Space"
+    },
+    {
+      "op": "waitMs",
+      "ms": 900
+    },
+    {
+      "op": "assertText",
+      "text": "进行中"
+    },
+    {
+      "op": "key",
+      "key": "Space"
+    },
+    {
+      "op": "waitMs",
+      "ms": 900
+    },
+    {
+      "op": "assertText",
+      "text": "已暂停"
+    },
+    {
+      "op": "screenshot",
+      "name": "keyboard"
+    }
+  ]
+}

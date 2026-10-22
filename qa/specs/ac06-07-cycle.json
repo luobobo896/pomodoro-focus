@@ -1,0 +1,149 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "timeoutMs": 70000,
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{__pf.advance(__pf.getState().settings.focusMin*60000-2000);return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 2200
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-skip]"
+    },
+    {
+      "op": "waitMs",
+      "ms": 300
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{__pf.advance(__pf.getState().settings.focusMin*60000-2000);return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 2200
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-skip]"
+    },
+    {
+      "op": "waitMs",
+      "ms": 300
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{__pf.advance(__pf.getState().settings.focusMin*60000-2000);return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 2200
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-skip]"
+    },
+    {
+      "op": "waitMs",
+      "ms": 300
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{__pf.advance(__pf.getState().settings.focusMin*60000-2000);return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 2200
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var g=function(id){return document.querySelector('[data-testid='+id+']').innerText.trim();};return g('phase-label')==='专注'&&g('time-display')==='00:00'&&g('status-label')==='已结束';})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var t=document.querySelector('[data-testid=pomo-count]').innerText.trim();var m=/([0-9]+)\\s*\\/\\s*([0-9]+)/.exec(t);return !!m&&m[1]==='4'&&m[2]==='4';})()",
+      "expect": "true"
+    },
+    {
+      "op": "assertText",
+      "text": "第 5 轮"
+    },
+    {
+      "op": "screenshot",
+      "name": "4th-focus-finished"
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "waitMs",
+      "ms": 700
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var g=function(id){return document.querySelector('[data-testid='+id+']').innerText.trim();};return g('phase-label')==='长休息'&&g('time-display')==='15:00';})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{__pf.advance(__pf.getState().settings.longBreakMin*60000-2000);return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 2200
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var g=function(id){return document.querySelector('[data-testid='+id+']').innerText.trim();};return g('phase-label')==='长休息'&&g('time-display')==='00:00'&&g('status-label')==='已结束';})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var t=document.querySelector('[data-testid=pomo-count]').innerText.trim();var m=/([0-9]+)\\s*\\/\\s*([0-9]+)/.exec(t);return !!m&&m[1]==='0'&&m[2]==='4';})()",
+      "expect": "true"
+    },
+    {
+      "op": "assertText",
+      "text": "第 1 轮"
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "waitMs",
+      "ms": 700
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var g=function(id){return document.querySelector('[data-testid='+id+']').innerText.trim();};return g('phase-label')==='专注'&&g('time-display')==='25:00';})()",
+      "expect": "true"
+    }
+  ]
+}

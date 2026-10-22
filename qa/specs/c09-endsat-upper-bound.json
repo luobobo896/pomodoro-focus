@@ -1,0 +1,47 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "eval",
+      "expression": "(()=>{var s=JSON.parse(localStorage.getItem('pomodoro-focus:v1')||'{\"schemaVersion\":1,\"settings\":{},\"stats\":{},\"session\":{}}');s.session={phase:'focus',status:'running',endsAt:Date.now()+1e12,pausedRemainingMs:null,savedAt:Date.now()};localStorage.setItem('pomodoro-focus:v1',JSON.stringify(s));return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "goto",
+      "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var g=function(id){return document.querySelector('[data-testid='+id+']').innerText.trim();};return g('time-display')==='25:00'&&g('status-label')==='就绪'&&g('phase-label')==='专注';})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var s=JSON.parse(localStorage.getItem('pomodoro-focus:v1')||'{\"schemaVersion\":1,\"settings\":{},\"stats\":{},\"session\":{}}');s.settings=s.settings||{};s.settings.focusMin=25;s.settings.shortBreakMin=5;s.settings.longBreakMin=15;s.settings.longBreakEvery=4;s.stats=s.stats||{};s.stats.date=new Date().toISOString().slice(0,10);s.session={\"phase\": \"focus\", \"status\": \"running\", \"endsAt\": \"Date.now()+9e12\", \"pausedRemainingMs\": null, \"savedAt\": null, \"phaseTotalMs\": 9000000000000.0};localStorage.setItem('pomodoro-focus:v1',JSON.stringify(s));return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "goto",
+      "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var g=function(id){return document.querySelector('[data-testid='+id+']').innerText.trim();};return g('time-display')==='25:00'&&g('status-label')==='就绪'&&g('phase-label')==='专注';})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var s=JSON.parse(localStorage.getItem('pomodoro-focus:v1')||'{\"schemaVersion\":1,\"settings\":{},\"stats\":{},\"session\":{}}');s.settings=s.settings||{};s.settings.focusMin=25;s.settings.shortBreakMin=5;s.settings.longBreakMin=15;s.settings.longBreakEvery=4;s.stats=s.stats||{};s.stats.date=new Date().toISOString().slice(0,10);s.session={\"phase\": \"focus\", \"status\": \"paused\", \"endsAt\": null, \"pausedRemainingMs\": 9000000000000.0, \"savedAt\": null, \"phaseTotalMs\": 9000000000000.0};localStorage.setItem('pomodoro-focus:v1',JSON.stringify(s));return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "goto",
+      "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var g=function(id){return document.querySelector('[data-testid='+id+']').innerText.trim();};return g('time-display')==='25:00'&&g('status-label')==='就绪'&&g('phase-label')==='专注';})()",
+      "expect": "true"
+    }
+  ]
+}

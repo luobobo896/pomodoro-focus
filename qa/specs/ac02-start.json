@@ -1,0 +1,31 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "waitMs",
+      "ms": 3200
+    },
+    {
+      "op": "assertText",
+      "text": "进行中"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var s=document.querySelector('[data-testid=btn-start]'),p=document.querySelector('[data-testid=btn-pause]');return s.hidden&&p.hidden===false&&p.disabled===false;})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{var t=document.querySelector('[data-testid=time-display]').innerText.trim().split(':');var v=+t[0]*60+ +t[1];return v>=1496&&v<=1498;})()",
+      "expect": "true"
+    },
+    {
+      "op": "screenshot",
+      "name": "running"
+    }
+  ]
+}

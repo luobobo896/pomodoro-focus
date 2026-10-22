@@ -1,0 +1,39 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "eval",
+      "expression": "__pf.getState().storageAvailable===false",
+      "expect": "true"
+    },
+    {
+      "op": "assertText",
+      "text": "25:00"
+    },
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "waitMs",
+      "ms": 1500
+    },
+    {
+      "op": "assertText",
+      "text": "进行中"
+    },
+    {
+      "op": "goto",
+      "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1"
+    },
+    {
+      "op": "eval",
+      "expression": "document.querySelector('[data-testid=time-display]').innerText.trim()==='25:00'&&document.body.innerText.length>20",
+      "expect": "true"
+    },
+    {
+      "op": "screenshot",
+      "name": "no-storage"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "url": "http://127.0.0.1:8231/pomodoro-focus/?debug=1",
+  "steps": [
+    {
+      "op": "click",
+      "selector": "[data-testid=btn-start]:not([hidden])"
+    },
+    {
+      "op": "waitMs",
+      "ms": 1500
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{window.__qaT1=document.title;return /^[0-9]{2}:[0-9]{2} · 专注$/.test(document.title);})()",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 1500
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{window.__qaT2=document.title;return window.__qaT2!==window.__qaT1&&/ · 专注$/.test(window.__qaT2);})()",
+      "expect": "true"
+    },
+    {
+      "op": "eval",
+      "expression": "(()=>{__pf.advance(__pf.getState().settings.focusMin*60000);return true;})()",
+      "expect": "true"
+    },
+    {
+      "op": "waitMs",
+      "ms": 1200
+    },
+    {
+      "op": "eval",
+      "expression": "document.title==='✓ 专注结束'",
+      "expect": "true"
+    }
+  ]
+}
